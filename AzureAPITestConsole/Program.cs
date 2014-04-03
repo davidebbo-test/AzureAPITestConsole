@@ -25,14 +25,11 @@ namespace AzureAPITestConsole
             string pfxPassword = ConfigurationManager.AppSettings["pfxPassword"];
             string subscription = ConfigurationManager.AppSettings["subscription"];
 
-            // Create cert object
-            var cert = new X509Certificate2(
-                pfxPath,
-                pfxPassword);
-
+            var cert = new X509Certificate2(pfxPath, pfxPassword);
             var creds = new CertificateCloudCredentials(subscription, cert);
             var client = new WebSiteManagementClient(creds);
 
+            // Enumerate all the webspaces and sites they contain
             foreach (var webSpace in await client.WebSpaces.ListAsync())
             {
                 Console.WriteLine(webSpace.Name);
